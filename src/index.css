@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin './hero.js';
+
+/* Note: You may need to change the path to fit your project structure */
+
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+
+
+@layer utilities{
+    .active{
+        @apply text-fuchsia-500
+    }
+    .container{
+        @apply mx-auto
+    }
+   
+}
+
+
+@font-face {
+    font-family:"Merienda", cursive;
+    src: url();
+}
+
+@layer components{
+    .under-line{
+        @apply before:absolute before:h-0.5 before:w-1/3 flex justify-center  before:bg-gradient-to-r before:to-fuchsia-600 via-blue-500 before:from-sky-600 before:bottom-1/9  before:rounded-3xl 
+    }
+    .tall-underline{
+    @apply    after:absolute after:bg-gradient-to-r after:to-fuchsia-600 via-blue-500 after:from-sky-600 after:bottom-1/25  after:w-2/3 after:h-0.5
+    }
+}
+
+@theme{
+    --color-gded: #0f0c29;
+    --color-gded2: #302b63;
+    --color-gded3:#817db1;
+}
