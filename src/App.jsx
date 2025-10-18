@@ -8,19 +8,21 @@ import FeedPage from './Pages/FeedPage/FeedPage'
 import PostDetailsPage from './Pages/PostDetailsPage/PostDetailsPage'
 import ProfilePage from './Pages/ProfilePage/ProfilePage'
 import NotFoundPage from './Pages/NotFoundPage/NotFoundPage'
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
+import ProtectedAuthRoute from './ProtectedRoute/ProtectedAuthRoute'
 
 
 const router = createBrowserRouter([
   {path:"" , element: <AuthLayout/>, children:[
-    {path:"login" , element: <LoginPage/>},
-    {path:"register" , element: <RegisterPage/>},
+    {path:"login" , element: <ProtectedAuthRoute><LoginPage/></ProtectedAuthRoute> },
+    {path:"register" , element: <ProtectedAuthRoute><RegisterPage/></ProtectedAuthRoute> },
   ]},
 
   {
     path: "" , element: <MainLayout/>, children: [
-      {index:true , element:<FeedPage/>},
-      {path: "post-details" , element:<PostDetailsPage/>},
-      {path: "profile" , element:<ProfilePage/>},
+      {index:true , element: <ProtectedRoute> <FeedPage/> </ProtectedRoute> },
+      {path: "post-details" , element: <ProtectedRoute>  <PostDetailsPage/> </ProtectedRoute>},
+      {path: "profile" , element:<ProtectedRoute> <ProfilePage/> </ProtectedRoute>},
       {path: "*" , element:<NotFoundPage/>},
     ]
   }

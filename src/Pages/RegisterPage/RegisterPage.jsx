@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import { scheme } from "../../Schema/RegisterSchema";
 import { registerApi } from "../../Services/AuthApi";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-
-  const [isLoading, setIsLoading] = useState(false)
-
-
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMesg, setErrMesg] = useState("");
+  const [succMesg, setSuccMesg] = useState("");
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -29,13 +29,24 @@ export default function RegisterPage() {
   });
 
   async function handleRegister(formData) {
-    setIsLoading(true)
+    setErrMesg("");
+    setSuccMesg("");
+    setIsLoading(true);
     const data = await registerApi(formData);
-    setIsLoading(false)
+    setIsLoading(false);
     console.log(data);
+
+    if (data.error) {
+      setErrMesg(data);
+    } else if (data.message) {
+      setSuccMesg(data.message);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
   }
 
-  // console.log(errors);
+
 
   return (
     <>
@@ -68,12 +79,12 @@ export default function RegisterPage() {
         </label>
       </div> */}
 
-      <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-fit    ">
-        <div className="container text-center flex flex-col justify-center items-center min-h-min">
+      <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-screen flex items-center    ">
+        <div className="container text-center flex flex-col justify-center items-center min-h-min ">
           <form
             onSubmit={handleSubmit(handleRegister)}
             action=""
-            className="mx-auto text-center mt-10 mb-11 border-3 p-5 rounded-3xl pb-15 bg-gradient-to-r  from:gded to-gded2 shadow-lg/70 "
+            className="mx-auto text-center mt-5 m-b-5 border-3 p-5 rounded-3xl pb-15 bg-gradient-to-r  from:gded to-gded2 shadow-lg/70 "
           >
             <h1 className="text-3xl font-bold py-5 text-white text-shadow-lg/50 relative under-line tall-underline   mb-6">
               Join the community{" "}
@@ -176,6 +187,14 @@ export default function RegisterPage() {
             >
               Submit
             </Button>
+            { errMesg && <p className="text-center text-danger-400 mt-2"> {errMesg} </p>}
+            { succMesg && <p className="text-center text-primary-600 mt-2"> {succMesg} </p>}
+            <p className="text-white mt-5 text-start">
+              you have an acount ?{" "}
+              <Link className="text-fuchsia-400 ml-2" to={"/login"}>
+                login Now
+              </Link>{" "}
+            </p>
           </form>
         </div>
       </div>
