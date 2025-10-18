@@ -86,7 +86,7 @@ export default function Navebar() {
 
   return (
     <>
-      <HeroUiNavebar>
+      <HeroUiNavebar className="dark:bg-black9">
         <NavbarBrand>
           <AcmeLogo />
           <p className="font-bold text-inherit">SOCIAL  </p>
@@ -103,7 +103,7 @@ export default function Navebar() {
 
 {
     isLoggedIn ? 
-        <NavbarContent as="div" justify="end">
+        <NavbarContent as="div" justify="end" >
           <Dropdown placement="bottom-end">
             <DropdownTrigger className=" cursor-pointer">
               <Avatar

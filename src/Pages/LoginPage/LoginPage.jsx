@@ -48,18 +48,18 @@ export default function LoginPage() {
 
 
       <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-screen flex items-center    ">
-        <div className="container text-center  flex flex-col justify-center items-center min-h-min">
+        <div className="container text-center  flex flex-col justify-center items-center min-h-min xs:px-20">
           <form
             onSubmit={handleSubmit(handleLogin)}
             action=""
-            className="mx-auto w-full xs:w-80    sm:w-100  text-center mt-10 mb-11 border-3 p-5 rounded-3xl pb-15 bg-gradient-to-r  from:gded to-gded2 shadow-lg/70 "
+            className="mx-auto w-full xs:w-80  sm:w-[30px] text-center mt-10 mb-11 border-3  rounded-3xl pb-15 bg-gradient-to-r  from:gded to-gded2 shadow-lg/70 "
           >
-            <h1 className="text-3xl font-bold py-5 text-white text-shadow-lg/50 relative under-line tall-underline   mb-6">
+            <h1 className="text-3xl font-bold py-5 text-white text-shadow-lg/50 relative under-line tall-underline mb-6">
               Login to the community
             </h1>
        
             <Input
-              className="w-full mb-3 text-white     "
+              className="w-full mb-3 text-white    "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -73,7 +73,7 @@ export default function LoginPage() {
               errorMessage={errors.email?.message}
             />
             <Input
-              className="w-full sm:w-90 mb-3 text-white  "
+              className="w-full  mb-3 text-white sm:w-[20px]  "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
