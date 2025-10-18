@@ -2,8 +2,8 @@ import Comment from "./Comment";
 
 export default function PostComponent({ post }) {
   return (
-    <div className=" w-full flex flex-col  mt-3 xs:p-0  ">
-      <div className="bg-white w-full rounded-xl shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
+    <div className=" w-full flex flex-col mt-3   ">
+      <div className=" w-full rounded-xl  shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
         <div className="w-full h-16 flex items-center  justify-between ">
           <div className="flex">
             <img
@@ -12,8 +12,8 @@ export default function PostComponent({ post }) {
               alt={post.body}
             />
             <div>
-              <h3 className="text-md font-semibold ">{post.user.name}</h3>
-              <p className="text-xs text-gray-500">{post.createdAt}</p>
+              <h3 className="text-md font-semibold ms-3 ">{post.user.name}</h3>
+              <p className="text-xs text-gray-500 ms-3">{post.createdAt}</p>
             </div>
           </div>
           <svg
@@ -37,7 +37,7 @@ export default function PostComponent({ post }) {
         {post.image && (
           <img
             src={post.image}
-            className="w-full "
+            className="w-full object-cover xs:h-50 sm:h-100  "
             alt={post.body}
           />
         )}
@@ -141,7 +141,6 @@ export default function PostComponent({ post }) {
             </span>
           </button>
         </div>
-        <hr />
       { post.comments[0] && <Comment comment={post.comments} />}
       </div>
     </div>

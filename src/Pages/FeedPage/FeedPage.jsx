@@ -23,7 +23,7 @@ export default function FeedPage() {
 
   return (
 
-    <div className="grid  max-w-2xl mx-auto  ">
+    <div className="grid  max-w-2xl mx-auto  sm:p-10  xs:p-0 gap-2 ">
       {isLoading ? (
         <LoadingScrean />
       ) : (
