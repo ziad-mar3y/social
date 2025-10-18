@@ -86,11 +86,11 @@ export default function Navebar() {
 
   return (
     <>
-      <HeroUiNavebar className="dark:bg-black9">
-        <NavbarBrand>
-          <AcmeLogo />
-          <p className="font-bold text-inherit">SOCIAL  </p>
-        </NavbarBrand>
+      <HeroUiNavebar className="dark:bg-black9 ">
+        {/* <NavbarBrand> */}
+          {/* <AcmeLogo /> */}
+          <p className="font-bold text-inherit w-fit  ">SOCIAL  </p>
+        {/* </NavbarBrand> */}
 
         <NavbarContent className="hidden sm:flex gap-4 " justify="center">
           <NavbarItem>
@@ -143,15 +143,16 @@ export default function Navebar() {
         // </NavbarContent> :
         // ""
 }
-        <Button onPress={handleMoode} className="" variant="shadow">
-          {" "}
+          <Button onPress={handleMoode} className="" variant="shadow">
           toggle
         </Button>
 
         {isLoggedIn ? (
-          <Button className="" variant="shadow " onPress={signOut}>
+        <>  <Button className="text-danger-500  " variant="shadow" onPress={signOut}>
             signout
           </Button>
+        
+        </>
         ) : (
           <>
             <Button className="" variant="shadow" onPress={loginnavigate}>
@@ -160,9 +161,9 @@ export default function Navebar() {
             </Button>
 
             <Button className="" variant="shadow" onPress={signupnavigate}>
-              {" "}
-              signin{" "}
+              signin
             </Button>
+            
           </>
         )}
         {/* <Button className="" variant="shadow">
