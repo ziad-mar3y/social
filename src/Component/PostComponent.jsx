@@ -3,7 +3,7 @@ import Comment from "./Comment";
 export default function PostComponent({ post }) {
   return (
     <div className=" w-full flex flex-col mt-3   ">
-      <div className=" w-full rounded-xl  shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
+      <div className=" bg-white w-full rounded-xl  shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
         <div className="w-full h-16 flex items-center  justify-between ">
           <div className="flex">
             <img
