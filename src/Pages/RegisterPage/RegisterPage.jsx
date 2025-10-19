@@ -84,13 +84,13 @@ export default function RegisterPage() {
           <form
             onSubmit={handleSubmit(handleRegister)}
             action=""
-            className="mx-auto text-center mt-5 m-b-5 border-3 p-5 rounded-3xl pb-15 bg-gradient-to-r  from:gded to-gded2 shadow-lg/70 "
+            className="mx-auto text-center mt-5 m-b-5 border-3 p-5 rounded-3xl pb-15 bg-gradient-to-r flex-col justify-center items-center from:gded to-gded2 shadow-lg/70 "
           >
             <h1 className="text-3xl font-bold py-5 text-white text-shadow-lg/50 relative under-line tall-underline   mb-6">
               Join the community{" "}
             </h1>
             <Input
-              className="sm:w-90 mb-3  text-white xs:w-60 "
+              className="sm:w-90 mb-3  text-white xs:w-full "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -104,7 +104,7 @@ export default function RegisterPage() {
               isInvalid={Boolean(errors.name?.message)}
             />
             <Input
-              className="sm:w-90 mb-3 xs:w-60 text-white "
+              className="sm:w-90 mb-3 xs:w-full text-white "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -118,7 +118,7 @@ export default function RegisterPage() {
               errorMessage={errors.email?.message}
             />
             <Input
-              className="sm:w-90 mb-3 xs:w-60 text-white "
+              className="sm:w-90 mb-3 xs:w-full text-white "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -132,7 +132,7 @@ export default function RegisterPage() {
               errorMessage={errors.password?.message}
             />
             <Input
-              className="sm:w-90 mb-3 xs:w-60 text-white "
+              className="sm:w-90 mb-3 xs:w-full text-white "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -146,7 +146,7 @@ export default function RegisterPage() {
               errorMessage={errors.rePassword?.message}
             />
             <Input
-              className="sm:w-90 mb-3 xs:w-60 py-3  text-white"
+              className="sm:w-90 mb-3 xs:w-full py-3  text-white"
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -160,7 +160,7 @@ export default function RegisterPage() {
               errorMessage={errors.dateOfBirth?.message}
             />
 
-            <div className="flex w-full flex-wrap md:flex-nowrap gap-4 xs:w-60 sm:w-90 ">
+            <div className="flex w-full flex-wrap md:flex-nowrap gap-4 xs:w-full sm:w-90 ">
               <Select
                 className="text-white"
                 classNames={{
