@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   Avatar,
   Button,
+  NavbarMenuItem,
 } from "@heroui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { counterContext } from "../Contexts/CounterContext";
@@ -86,18 +87,18 @@ export default function Navebar() {
 
   return (
     <>
-      <HeroUiNavebar className="dark:bg-black9 ">
+      <HeroUiNavebar className="dark:bg-black9 flex justify-center  ">
         {/* <NavbarBrand> */}
           {/* <AcmeLogo /> */}
-          <p className="font-bold text-inherit w-fit  ">SOCIAL  </p>
+          <p className="font-bold text-inherit w-fit flex-1   ">SOCIAL</p>
         {/* </NavbarBrand> */}
 
-        <NavbarContent className="hidden sm:flex gap-4 " justify="center">
+        <NavbarContent className=" sm:flex gap-4 flex-2 xs:flex-wrap   " justify="center">
           <NavbarItem>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/" className={"xs:text-[15px] sm:text-lg "}>Home</NavLink>
           </NavbarItem>
           <NavbarItem isActive>
-            <NavLink to="/profile">Profile</NavLink>
+            <NavLink to="/profile" className={"xs:text-[15px] sm:text-lg"}>Profile</NavLink>
           </NavbarItem>
         </NavbarContent>
 
@@ -143,12 +144,10 @@ export default function Navebar() {
         // </NavbarContent> :
         // ""
 }
-          <Button onPress={handleMoode} className="" variant="shadow">
-          toggle
-        </Button>
+          
 
         {isLoggedIn ? (
-        <>  <Button className="text-danger-500  " variant="shadow" onPress={signOut}>
+        <>  <Button className="text-danger-500   " variant="shadow" onPress={signOut}>
             signout
           </Button>
         
@@ -166,18 +165,10 @@ export default function Navebar() {
             
           </>
         )}
-        {/* <Button className="" variant="shadow">
-          {" "}
-          Login{" "}
+      
+         <Button onPress={handleMoode} className="xs:w-1 xs:text-md " variant="shadow">
+          toggle
         </Button>
-        <Button className="" variant="shadow">
-          {" "}
-          signout{" "}
-        </Button>
-        <Button className="" variant="shadow">
-          {" "}
-          signin{" "}
-        </Button> */}
       </HeroUiNavebar>
     </>
   );
