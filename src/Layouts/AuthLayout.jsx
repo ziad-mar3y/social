@@ -5,7 +5,6 @@ import Navebar from '../Component/Navebar'
 export default function AuthLayout() {
   return (
     <>  
-
         <Outlet/>
     </>
   )

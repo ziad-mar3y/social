@@ -8,9 +8,8 @@ export default function MainLayout() {
     <>
     <Navebar/>
 
-      <div className="container ">
         <Outlet/>
-      </div>
+ 
     </>
   )
 }

@@ -7,12 +7,14 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Loginscheme } from "../../Schema/LoginSchema";
 import { authContext } from "../../Contexts/AuthContextProvider";
+import { themeContext } from "../../Contexts/ThemeContext";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMesg, setErrMesg] = useState("");
   const navigate = useNavigate();
   const {setIsLoggedIn} = useContext(authContext)
+  const {setTheme} = useContext(themeContext)
 
   const {
     handleSubmit,
@@ -34,7 +36,8 @@ export default function LoginPage() {
     if (data.message == "success") {
       localStorage.setItem("token" , data.token)
       setIsLoggedIn(true)
-      navigate("/")
+      const pathnName = location.pathname;
+      navigate( pathnName = "login" ? "/"  : pathnName )
       
     }else {
       setErrMesg(data)
@@ -59,7 +62,7 @@ export default function LoginPage() {
             </h1>
        
             <Input
-              className="w-full mb-3 text-white    "
+              className="w-full mb-3 text-white  "
               classNames={{
                 label: "text-blue-500 !text-white",
                 errorMessage: "text-red-500 font-bold text-md",
@@ -102,7 +105,10 @@ export default function LoginPage() {
                  Register Now
               </Link>
             </p>
+
           </form>
+                      {/* <Button onPress={()=> setTheme(true)} variant="shadow">dark</Button> */}
+
         </div>
       </div>
     </>

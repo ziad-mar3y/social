@@ -79,7 +79,7 @@ export default function RegisterPage() {
         </label>
       </div> */}
 
-      <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-screen flex items-center  justify-center   ">
+      <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-auto min-h-screen flex items-center  justify-center   ">
         <div className=" text-center flex flex-col justify-center items-center min-h-min ">
           <form
             onSubmit={handleSubmit(handleRegister)}

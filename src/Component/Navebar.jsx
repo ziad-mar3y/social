@@ -93,14 +93,14 @@ export default function Navebar() {
           <p className="font-bold text-inherit w-fit flex-1   ">SOCIAL</p>
         {/* </NavbarBrand> */}
 
-        <NavbarContent className=" sm:flex gap-4 flex-2 xs:flex-wrap   " justify="center">
+   { isLoggedIn &&    <NavbarContent className=" sm:flex gap-4 flex-2 xs:flex-wrap   " justify="center">
           <NavbarItem>
             <NavLink to="/" className={"xs:text-[15px] sm:text-lg "}>Home</NavLink>
           </NavbarItem>
           <NavbarItem isActive>
             <NavLink to="/profile" className={"xs:text-[15px] sm:text-lg"}>Profile</NavLink>
           </NavbarItem>
-        </NavbarContent>
+        </NavbarContent>}
 
 {
     isLoggedIn 
