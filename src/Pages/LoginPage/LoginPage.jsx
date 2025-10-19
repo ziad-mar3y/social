@@ -37,7 +37,7 @@ export default function LoginPage() {
       localStorage.setItem("token" , data.token)
       setIsLoggedIn(true)
       const pathnName = location.pathname;
-      navigate( pathnName = "login" ? "/"  : pathnName )
+      navigate( pathnName == "login" ? "/"  : pathnName )
       
     }else {
       setErrMesg(data)
@@ -107,7 +107,6 @@ export default function LoginPage() {
             </p>
 
           </form>
-                      {/* <Button onPress={()=> setTheme(true)} variant="shadow">dark</Button> */}
 
         </div>
       </div>
