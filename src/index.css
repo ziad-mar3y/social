@@ -22,6 +22,11 @@
     }
    
 }
+@layer base{
+    button{
+        @apply cursor-pointer
+    }
+}
 
 
 @font-face {

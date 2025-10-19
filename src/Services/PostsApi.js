@@ -21,3 +21,18 @@ export  async function getAllPostsApi(){
     }
    
 }
+export  async function getPostDetailsApi(postId){
+    try {
+        const {data} = await axios.get(baseUrl + "posts/" + postId,{
+        headers: {
+        token: localStorage.getItem("token")
+        
+        }
+        
+    } )
+    return data;
+    } catch (error) {
+        return error.response ?  error.response.data.error : error.message
+    }
+   
+}
