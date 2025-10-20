@@ -83,11 +83,11 @@ export default function Navebar() {
       }
     }
   }, []);
-  const {counter} = useContext(counterContext);
+  // const {counter} = useContext(counterContext);
 
   return (
     <>
-      <HeroUiNavebar className="dark:bg-black9 flex justify-center  ">
+     { isLoggedIn && <HeroUiNavebar className="dark:bg-black9 flex justify-center  ">
         {/* <NavbarBrand> */}
           {/* <AcmeLogo /> */}
           <p className="font-bold text-inherit w-fit flex-1   ">SOCIAL</p>
@@ -169,7 +169,7 @@ export default function Navebar() {
          <Button onPress={handleMoode} className="xs:w-1 xs:text-md " variant="shadow">
           toggle
         </Button>
-      </HeroUiNavebar>
+      </HeroUiNavebar>}
     </>
   );
 }

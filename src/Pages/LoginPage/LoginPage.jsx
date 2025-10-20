@@ -37,7 +37,7 @@ export default function LoginPage() {
       localStorage.setItem("token" , data.token)
       setIsLoggedIn(true)
       const pathnName = location.pathname;
-      navigate( pathnName == "login" ? "/"  : pathnName )
+      navigate( pathnName == "/login" ? "/"  : pathnName )
       
     }else {
       setErrMesg(data)
