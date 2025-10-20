@@ -6,7 +6,7 @@ export default function PostBody({capton , image   }) {
       {image && (
           <img
           src={image}
-          className="w-full object-cover xs:h-50 sm:h-100  "
+          className="w-full object-contain xs:h-70 sm:h-90 "
           alt={capton}
         />      )}
     </> 

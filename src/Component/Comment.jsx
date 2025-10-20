@@ -1,6 +1,6 @@
 import userPhoto from "../../src/assets/OIP.webp";
 
-export default function Comment({ comment  }) {
+export default function Comment({ comment   }) {
   return (
     <div className="flex mt-4">
       {

@@ -5,23 +5,31 @@ import PostActions from "./Post/PostActions";
 import PostBody from "./Post/PostBody";
 import PostFooter from "./Post/PostFooter";
 import { useState } from "react";
+import { AddCommentApi } from "../Services/CommentsApi";
 
-export default function PostComponent({ post, commentsLimit  }) {
+export default function PostComponent({ post, commentsLimit, callback }) {
   const [visableComments, setVisableComments] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
+  const [commentContent, setCommentContent] = useState("");
+  const [isCommentSubmitted, setIsCommentSubmitted] = useState(false);
+  
 
   function handleMoreComments() {
     setIsLoading(true);
-
     setTimeout(() => {
       setVisableComments(visableComments + 3);
       setIsLoading(false);
     }, 300);
   }
 
-// async function handleComment(){
+  async function handleComment() {
+    setIsCommentSubmitted(true);
+    const response = await AddCommentApi(commentContent, post.id);
+    setCommentContent("");
+    setIsCommentSubmitted(false);
+    callback();
+  }
 
-//   }
   return (
     <div className=" w-full flex flex-col mt-3   ">
       <div className=" bg-white w-full rounded-xl  shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
@@ -49,28 +57,43 @@ export default function PostComponent({ post, commentsLimit  }) {
           </svg>
         </div>
 
-        <PostBody  capton={post.body} image={post.image}  />
+        <PostBody capton={post.body} image={post.image} />
 
         <PostFooter numOfComments={post.comments.length} />
 
-        <PostActions id={post.id} />
+        <PostActions id={post.id}  />
         <div className="flex justify-between gap-4 xs:flex-wrap sm:flex-nowrap">
-          <Input placeholder="comment" variant="faded" />
-          <Button  variant="ghost" >Comment</Button>
+          <Input
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
+            placeholder="comment . . . . . "
+            variant="faded"
+            
+          />
+          <Button
+            isLoading={isCommentSubmitted}
+            onPress={handleComment}
+            variant="ghost"
+            isDisabled={commentContent.trim() == ""}
+          >
+            Comment
+          </Button>
         </div>
         {post.comments
           .slice(0, commentsLimit ?? visableComments)
           .map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment._id} comment={comment}  />
           ))}
-    { post.comments.length > visableComments && !commentsLimit &&  <Button
-          isLoading={isLoading}
-          onPress={handleMoreComments}
-          className="mx-auto block"
-          variant="shadow"
-        >
-          Load More
-        </Button>}
+        {post.comments.length > visableComments && !commentsLimit && (
+          <Button
+            isLoading={isLoading}
+            onPress={handleMoreComments}
+            className="mx-auto block"
+            variant="shadow"
+          >
+            Load More
+          </Button>
+        )}
       </div>
     </div>
   );

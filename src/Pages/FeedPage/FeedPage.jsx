@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllPostsApi } from "../../Services/PostsApi";
 import LoadingScrean from "../LoadingScrean/LoadingScrean";
 import PostComponent from "../../Component/PostComponent";
-import userPhoto from "../../assets/OIP.webp";
+import CreatePost from "../../Component/Post/CreatPost";
 
 export default function FeedPage() {
   const [posts, setPosts] = useState([]);
@@ -22,11 +22,13 @@ export default function FeedPage() {
   }, []);
 
   return (
-    <div className="grid  max-w-2xl mx-auto  sm:p-10  xs:p-0 gap-2 ">
+    <div className="grid  max-w-2xl mx-auto  sm:p-10  xs:p-1 gap-2  ">
+
+      <CreatePost getAllPosts={getAllPosts}/>
       {isLoading ? (
         <LoadingScrean />
       ) : (
-        posts.map((post) => <PostComponent key={post.id} post={post} commentsLimit={1} />)
+        posts.map((post) => <PostComponent callback={getAllPosts} key={post.id} post={post} commentsLimit={1} />)
       )}
     </div>
   );

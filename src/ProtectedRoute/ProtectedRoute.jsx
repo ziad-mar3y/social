@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
 import { authContext } from "../Contexts/AuthContextProvider";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 
