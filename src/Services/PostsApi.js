@@ -7,7 +7,7 @@ export async function getAllPostsApi(page = 1) {
   try {
     const { data } = await axios.get(baseUrl + "posts", {
       headers: {
-        token: token,
+        token: localStorage.getItem("token")
       },
        params:{
             page,
@@ -24,7 +24,7 @@ export async function getPostDetailsApi(postId) {
   try {
     const { data } = await axios.get(baseUrl + "posts/" + postId, {
       headers: {
-        token: token,
+        token: localStorage.getItem("token")
       },
     });
     return data;
@@ -40,7 +40,7 @@ export async function addPostApi(formData) {
      formData,
       {
         headers: {
-          token: token,
+          token: localStorage.getItem("token")
         },
        
       }
@@ -49,4 +49,18 @@ export async function addPostApi(formData) {
   } catch (error) {
     return error.response ? error.response.data.error : error.message;
   }
+}
+
+export async function deletePostApi(postId) {
+  try {
+     const {data} = await axios.delete(baseUrl + "posts/" + postId ,{
+    headers:{
+      token:localStorage.getItem("token")
+    }
+  })
+  return data
+  } catch (error) {
+    return error.response ? error.response.data.error : error.message
+  }
+ 
 }

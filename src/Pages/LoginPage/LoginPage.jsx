@@ -1,20 +1,21 @@
 import { Button, Input } from "@heroui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { scheme } from "../../Schema/RegisterSchema";
 import { loginApi} from "../../Services/AuthApi";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Loginscheme } from "../../Schema/LoginSchema";
 import { authContext } from "../../Contexts/AuthContextProvider";
 import { themeContext } from "../../Contexts/ThemeContext";
+import ToggleMode from "../../Component/ToggleMode";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMesg, setErrMesg] = useState("");
   const navigate = useNavigate();
   const {setIsLoggedIn} = useContext(authContext)
-  const {setTheme} = useContext(themeContext)
+  const {handleMoode} = useContext(themeContext)
+
 
   const {
     handleSubmit,
@@ -50,8 +51,9 @@ export default function LoginPage() {
     <>
 
 
-      <div className="  bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-screen flex items-center    ">
+      <div className="  bg-[url('/src/assets/image3.jpg')]  dark:bg-[url('/src/assets/image2.jpg')]  bg-no-repeat bg-cover h-screen flex items-center    ">
         <div className="container text-center  flex flex-col justify-center items-center min-h-min ">
+          <ToggleMode handleMoode={handleMoode} />
           <form
             onSubmit={handleSubmit(handleLogin)}
             action=""

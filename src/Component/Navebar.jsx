@@ -17,6 +17,8 @@ import { counterContext } from "../Contexts/CounterContext";
 import AuthContextProvider, {
   authContext,
 } from "../Contexts/AuthContextProvider";
+import ToggleMode from "./ToggleMode";
+import { themeContext } from "../Contexts/ThemeContext";
 
 export const AcmeLogo = () => {
   return (
@@ -32,10 +34,9 @@ export const AcmeLogo = () => {
 };
 
 export default function Navebar() {
-  // const isLoggedIn = localStorage.getItem("token") != null;
-  const [theme, setTheme] = useState(null);
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useContext(authContext);
+  const {handleMoode} = useContext(themeContext)
 
   function signOut() {
     localStorage.removeItem("token");
@@ -50,47 +51,15 @@ export default function Navebar() {
     navigate("/register");
   }
 
-  function handleMoode() {
-    document.documentElement.classList.toggle("dark");
-    if (theme == "dark") {
-      localStorage.setItem("theme", "light");
-      setTheme("light");
-    } else {
-      localStorage.setItem("theme", "dark");
-      setTheme("dark");
-    }
-  }
-
-  useEffect(() => {
-    if (
-      !("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      document.documentElement.classList.add("dark");
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-
-    if ("theme" in localStorage) {
-      if (localStorage.getItem("theme") == "dark") {
-        document.documentElement.classList.add("dark");
-        setTheme("dark");
-      } else {
-        setTheme("light");
-      }
-    }
-  }, []);
-  // const {counter} = useContext(counterContext);
 
   return (
     <>
       {isLoggedIn && (
         <HeroUiNavebar className="dark:bg-black9 flex justify-center  ">
-          {/* <NavbarBrand> */}
+          <NavbarBrand>
           {/* <AcmeLogo /> */}
-          <Link to={"/"} className="font-bold text-inherit w-fit flex-1">SOCIAL</Link>
-          {/* </NavbarBrand> */}
+          <Link to={"/"} className="font-bold text-inherit w-fit ">SOCIAL</Link>
+          </NavbarBrand>
 
           {/* { isLoggedIn &&    <NavbarContent className=" sm:flex gap-4 flex-2 xs:flex-wrap   " justify="center">
           <NavbarItem>
@@ -171,21 +140,8 @@ export default function Navebar() {
           {/* <button onPress={handleMoode} className="xs:text-md w-fit p-0 " variant="">
           <i className="fas fa-home"></i>
         </button> */}
-      <div className="flex flex-col justify-center ">
-  <input onChange={handleMoode} type="checkbox" name="light-switch" className="light-switch sr-only" id="light-switch" />
-  <label className="relative cursor-pointer p-2" htmlFor="light-switch">
-    <svg className="hidden dark:block" width={16} height={16} xmlns="http://www.w3.org/2000/svg" color="red">
-      <path className="fill-slate-300" d="M7 0h2v2H7zM12.88 1.637l1.414 1.415-1.415 1.413-1.413-1.414zM14 7h2v2h-2zM12.95 14.433l-1.414-1.413 1.413-1.415 1.415 1.414zM7 14h2v2H7zM2.98 14.364l-1.413-1.415 1.414-1.414 1.414 1.415zM0 7h2v2H0zM3.05 1.706 4.463 3.12 3.05 4.535 1.636 3.12z" />
-      <path className="fill-slate-400" d="M8 4C5.8 4 4 5.8 4 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4Z" />
-    </svg>
-    <svg className="dark:hidden" width={16} height={16} xmlns="http://www.w3.org/2000/svg">
-      <path className="fill-slate-400" d="M6.2 1C3.2 1.8 1 4.6 1 7.9 1 11.8 4.2 15 8.1 15c3.3 0 6-2.2 6.9-5.2C9.7 11.2 4.8 6.3 6.2 1Z" />
-      <path className="fill-slate-500" d="M12.5 5a.625.625 0 0 1-.625-.625 1.252 1.252 0 0 0-1.25-1.25.625.625 0 1 1 0-1.25 1.252 1.252 0 0 0 1.25-1.25.625.625 0 1 1 1.25 0c.001.69.56 1.249 1.25 1.25a.625.625 0 1 1 0 1.25c-.69.001-1.249.56-1.25 1.25A.625.625 0 0 1 12.5 5Z" />
-    </svg>
-    <span className="sr-only">Switch to light / dark version</span>
-  </label>
-</div>
-
+    
+<ToggleMode handleMoode={handleMoode}/>
         </HeroUiNavebar>
       )}
     </>

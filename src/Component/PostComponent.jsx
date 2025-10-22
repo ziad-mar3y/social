@@ -1,18 +1,40 @@
-import { Button, Input } from "@heroui/react";
+import {
+  addToast,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@heroui/react";
 import Comment from "./Comment";
 import Header from "./Post/Header";
 import PostActions from "./Post/PostActions";
 import PostBody from "./Post/PostBody";
 import PostFooter from "./Post/PostFooter";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AddCommentApi } from "../Services/CommentsApi";
+import { authContext } from "../Contexts/AuthContextProvider";
+import { deletePostApi } from "../Services/PostsApi";
+import CardDropdown from "./CardDropdown";
+import CardModal from "./CardModal";
 
 export default function PostComponent({ post, commentsLimit, callback }) {
   const [visableComments, setVisableComments] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommentSubmitted, setIsCommentSubmitted] = useState(false);
-  
+  const { userData } = useContext(authContext);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isPostDeleted, setIsPostDeleted] = useState(false);
+
+  // const {id} = useParams()
 
   function handleMoreComments() {
     setIsLoading(true);
@@ -25,9 +47,24 @@ export default function PostComponent({ post, commentsLimit, callback }) {
   async function handleComment() {
     setIsCommentSubmitted(true);
     const response = await AddCommentApi(commentContent, post.id);
+    await callback();
     setCommentContent("");
     setIsCommentSubmitted(false);
-    callback();
+  }
+
+  async function handleDeletePost(onClose) {
+    setIsPostDeleted(true);
+    const response = await deletePostApi(post.id);
+    if (response.message == "success") {
+      await callback();
+      setIsPostDeleted(false);
+      onClose();
+      addToast({
+        title: "delete successfully",
+        timeout: 2000,
+        color: "success",
+      });
+    }
   }
 
   return (
@@ -39,42 +76,26 @@ export default function PostComponent({ post, commentsLimit, callback }) {
             header={post.user.name}
             subheader={post.createdAt}
           />
-          <svg
-            className="w-16"
-            xmlns="http://www.w3.org/2000/svg"
-            width={27}
-            height={27}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#b0b0b0"
-            strokeWidth={2}
-            strokeLinecap="square"
-            strokeLinejoin="round"
-          >
-            <circle cx={12} cy={12} r={1} />
-            <circle cx={19} cy={12} r={1} />
-            <circle cx={5} cy={12} r={1} />
-          </svg>
+          {post.user._id == userData._id && <CardDropdown onOpen={onOpen} />}
         </div>
 
         <PostBody capton={post.body} image={post.image} />
 
         <PostFooter numOfComments={post.comments.length} />
 
-        <PostActions id={post.id}  />
+        <PostActions id={post.id} />
         <div className="flex justify-between gap-4 xs:flex-wrap sm:flex-nowrap">
           <Input
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
             placeholder="comment . . . . . "
             variant="faded"
-            
           />
           <Button
             isLoading={isCommentSubmitted}
             onPress={handleComment}
             variant="ghost"
-            isDisabled={commentContent.trim() == ""}
+            isDisabled={commentContent.trim().length < 2}
           >
             Comment
           </Button>
@@ -82,7 +103,12 @@ export default function PostComponent({ post, commentsLimit, callback }) {
         {post.comments
           .slice(0, commentsLimit ?? visableComments)
           .map((comment) => (
-            <Comment key={comment._id} comment={comment}  />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              onOpen={onOpen}
+              callback={callback}
+            />
           ))}
         {post.comments.length > visableComments && !commentsLimit && (
           <Button
@@ -95,6 +121,14 @@ export default function PostComponent({ post, commentsLimit, callback }) {
           </Button>
         )}
       </div>
+      <CardModal
+        deleteFn={handleDeletePost}
+        isLoading={isPostDeleted}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        title={"Delete Post"}
+        description={"you cant get this post again !"}
+      />
     </div>
   );
 }

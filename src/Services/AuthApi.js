@@ -1,6 +1,8 @@
 import axios from "axios"
 
 const baseUrl = "https://linked-posts.routemisr.com/"
+const token = localStorage.getItem("token");
+
 
 
 export async function registerApi(formData) {
@@ -18,4 +20,18 @@ export async function loginApi(formData) {
     } catch (error) {
         return  error.response ?  error.response.data.error : error.message
     }
+}
+
+export async function getUserDataApi() {
+    try {
+        const {data} = await axios.get(baseUrl + "users/profile-data" ,{
+            headers:{
+                token: token 
+            }
+        })
+        return data
+    } catch (error) {
+        return error.response ? error.response.data.error : error.message
+    }
+    
 }
