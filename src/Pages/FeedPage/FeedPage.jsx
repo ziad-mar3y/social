@@ -3,32 +3,44 @@ import { getAllPostsApi } from "../../Services/PostsApi";
 import LoadingScrean from "../LoadingScrean/LoadingScrean";
 import PostComponent from "../../Component/PostComponent";
 import CreatePost from "../../Component/Post/CreatPost";
+import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@heroui/spinner";
 
 export default function FeedPage() {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  async function getAllPosts() {
-    const data = await getAllPostsApi();
-    console.log(data);
-    if (data.message == "success") {
-      setPosts(data.posts);
-      setIsLoading(false);
-    }
-  }
+  // async function getAllPosts() {
+  //   const data = await getAllPostsApi();
+  //   console.log(data);
+  //   if (data.message == "success") {
+  //     setPosts(data.posts);
+  //     setIsLoading(false);
+  //   }
+  // }
 
-  useEffect(() => {
-    getAllPosts();
-  }, []);
+  const {data , isLoading , isFetching , refetch } = useQuery({
+    queryKey:["posts"],
+    queryFn: getAllPostsApi
+  })
+
+
+
+
+
+  // useEffect(() => {
+  //   getAllPosts();
+  // }, []);
 
   return (
-    <div className="grid  max-w-2xl mx-auto  sm:p-10  xs:p-1 gap-2  ">
+    <div className="grid  max-w-2xl mx-auto   gap-2  ">
 
-      <CreatePost getAllPosts={getAllPosts}/>
+      <CreatePost getAllPosts={refetch}/>
+      {isFetching && !isLoading && <Spinner className="text-center"/>}
       {isLoading ? (
         <LoadingScrean />
       ) : (
-        posts.map((post) => <PostComponent callback={getAllPosts} key={post.id} post={post} commentsLimit={1} />)
+      data?.data.posts.map((post) => <PostComponent callback={refetch} key={post.id} post={post} commentsLimit={1} />)
       )}
     </div>
   );

@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { getPostDetailsApi } from "../../Services/PostsApi";
 import { useParams } from "react-router-dom";
 import PostComponent from "../../Component/PostComponent";
 import LoadingScrean from "../LoadingScrean/LoadingScrean";
-// import { callBackContext } from "../../Contexts/CallBackProvider";
-import ToggleMode from "../../Component/ToggleMode";
-import { authContext } from "../../Contexts/AuthContextProvider";
+
 
 export default function PostDetailsPage() {
   const { id } = useParams();

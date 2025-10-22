@@ -1,24 +1,20 @@
 import axios from "axios";
 
 const baseUrl = "https://linked-posts.routemisr.com/";
-const token = localStorage.getItem("token");
 
-export async function getAllPostsApi(page = 1) {
-  try {
-    const { data } = await axios.get(baseUrl + "posts", {
-      headers: {
-        token: localStorage.getItem("token")
-      },
-       params:{
-            page,
-            sort:"-createdAt"
-
-        }
-    });
-    return data;
-  } catch (error) {
-    return error.response ? error.response.data.error : error.message;
+export async function getAllPostsApi() {
+  return axios.get(baseUrl + "posts/" ,{
+    headers:{
+      token: localStorage.getItem("token")
+      
+    },
+    params:{
+      sort:"-createdAt"
+    }
   }
+)
+    
+
 }
 export async function getPostDetailsApi(postId) {
   try {
@@ -63,4 +59,28 @@ export async function deletePostApi(postId) {
     return error.response ? error.response.data.error : error.message
   }
  
+}
+
+
+export async function getUserProfile(userId ) {
+  // try {
+  //   const {data} =await axios.get(baseUrl + "users/" + userId + "/posts",{
+  //   headers:{
+  //     token: localStorage.getItem("token")
+  //   },
+    
+  // })
+  // return data
+  // } catch (error) {
+  //   return error.response ? error.response.data.error : error.message
+  // }
+
+
+  return axios.get( baseUrl + "users/" + userId + "/posts",{
+    headers:{
+      token:localStorage.getItem("token")
+    },
+   
+  })
+    
 }

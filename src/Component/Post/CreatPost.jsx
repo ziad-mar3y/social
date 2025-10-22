@@ -49,7 +49,8 @@ export default function CreatePost({ getAllPosts }) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6 dark:bg-black9  dark:border-1">
+ <div className=" ">
+     <div className="bg-white w-full shadow-md p-6 mb-6 dark:bg-black9 mt-2  dark:border-1">
       {showForm ? (
         <form onSubmit={handleSubmit} className="space-y-4 ">
           {/* Caption Input */}
@@ -185,5 +186,6 @@ export default function CreatePost({ getAllPosts }) {
         </button>
       )}
     </div>
+ </div>
   );
 }

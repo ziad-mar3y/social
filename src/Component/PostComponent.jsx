@@ -24,6 +24,7 @@ import { authContext } from "../Contexts/AuthContextProvider";
 import { deletePostApi } from "../Services/PostsApi";
 import CardDropdown from "./CardDropdown";
 import CardModal from "./CardModal";
+import CreatComment from "./CreatComment";
 
 export default function PostComponent({ post, commentsLimit, callback }) {
   const [visableComments, setVisableComments] = useState(3);
@@ -33,8 +34,6 @@ export default function PostComponent({ post, commentsLimit, callback }) {
   const { userData } = useContext(authContext);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isPostDeleted, setIsPostDeleted] = useState(false);
-
-  // const {id} = useParams()
 
   function handleMoreComments() {
     setIsLoading(true);
@@ -68,15 +67,15 @@ export default function PostComponent({ post, commentsLimit, callback }) {
   }
 
   return (
-    <div className=" w-full flex flex-col mt-3   ">
-      <div className=" bg-white w-full rounded-xl  shadow-lg/20 h-auto py-3 px-3  dark:bg-black9 border-1.5 dark:text-slate-100">
+    <div className=" w-full flex flex-col mt-0   ">
+      <div className=" bg-white w-full rounded-xl shadow-lg/20 h-auto py-3 px-3  dark:bg-black9  dark:text-slate-100">
         <div className="w-full h-16 flex items-center  justify-between ">
           <Header
             avatar={post.user.photo}
             header={post.user.name}
             subheader={post.createdAt}
           />
-          {post.user._id == userData._id && <CardDropdown onOpen={onOpen} />}
+          {post.user?._id == userData._id && <CardDropdown onOpen={onOpen} />}
         </div>
 
         <PostBody capton={post.body} image={post.image} />
@@ -84,7 +83,7 @@ export default function PostComponent({ post, commentsLimit, callback }) {
         <PostFooter numOfComments={post.comments.length} />
 
         <PostActions id={post.id} />
-        <div className="flex justify-between gap-4 xs:flex-wrap sm:flex-nowrap">
+        {/* <div className="flex justify-between gap-4 xs:flex-wrap sm:flex-nowrap">
           <Input
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
@@ -96,10 +95,17 @@ export default function PostComponent({ post, commentsLimit, callback }) {
             onPress={handleComment}
             variant="ghost"
             isDisabled={commentContent.trim().length < 2}
+            className="ms-auto"
           >
             Comment
           </Button>
-        </div>
+        </div> */}
+        <CreatComment
+          commentContent={commentContent}
+          handleComment={handleComment}
+          isCommentSubmitted={isCommentSubmitted}
+          setCommentContent={setCommentContent}
+        />
         {post.comments
           .slice(0, commentsLimit ?? visableComments)
           .map((comment) => (
@@ -114,7 +120,7 @@ export default function PostComponent({ post, commentsLimit, callback }) {
           <Button
             isLoading={isLoading}
             onPress={handleMoreComments}
-            className="mx-auto block"
+            className="mx-auto block "
             variant="shadow"
           >
             Load More

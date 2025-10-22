@@ -1,21 +1,7 @@
 import { useContext, useState } from "react";
 import userPhoto from "../../src/assets/OIP.webp";
 import { authContext } from "../Contexts/AuthContextProvider";
-import {
-  addToast,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@heroui/react";
+import { addToast, Button, Input, useDisclosure } from "@heroui/react";
 import { DeleteCommentApi, UpdateCommentApi } from "../Services/CommentsApi";
 import CardDropdown from "./CardDropdown";
 import CardModal from "./CardModal";
@@ -24,8 +10,8 @@ export default function Comment({ comment, callback }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState(comment.content);
-  const [isInUpdatingMood, setIsInUpdatingMood] = useState(false)
-  const [isUpdating, setIsUpdating] = useState(false)
+  const [isInUpdatingMood, setIsInUpdatingMood] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   async function handleDeleteComment(onClose) {
     setIsCommentDeleted(true);
@@ -43,13 +29,13 @@ export default function Comment({ comment, callback }) {
   }
 
   async function updateComment() {
-    setIsUpdating(true)
-  const response = await UpdateCommentApi(comment._id , newCommentContent)    
-  if (response.message == "success") {
-    await callback()
-    setIsInUpdatingMood(false)
-  }
-  setIsUpdating(false)
+    setIsUpdating(true);
+    const response = await UpdateCommentApi(comment._id, newCommentContent);
+    if (response.message == "success") {
+      await callback();
+      setIsInUpdatingMood(false);
+    }
+    setIsUpdating(false);
   }
 
   return (
@@ -73,18 +59,34 @@ export default function Comment({ comment, callback }) {
         </div>
 
         {comment.commentCreator._id == userData._id && (
-          <CardDropdown onOpen={onOpen} setIsInUpdatingMood={setIsInUpdatingMood} />
+          <CardDropdown
+            onOpen={onOpen}
+            setIsInUpdatingMood={setIsInUpdatingMood}
+          />
         )}
       </div>
 
       {isInUpdatingMood ? (
         <div className="ps-12 pe-3 mt-2  flex-1">
-          <Input value={newCommentContent} onChange={(e)=>setNewCommentContent(e.target.value)} />
+          <Input
+            value={newCommentContent}
+            onChange={(e) => setNewCommentContent(e.target.value)}
+          />
           <div className="flex justify-end gap-2 mt-2">
-            <Button variant="bordered" color="default" onPress={()=>setIsInUpdatingMood(false)}>
+            <Button
+              variant="bordered"
+              color="default"
+              onPress={() => setIsInUpdatingMood(false)}
+            >
               Cancel
             </Button>
-            <Button onPress={updateComment} isLoading={isUpdating} color="primary">Edit</Button>
+            <Button
+              onPress={updateComment}
+              isLoading={isUpdating}
+              color="primary"
+            >
+              Edit
+            </Button>
           </div>
         </div>
       ) : (

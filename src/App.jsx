@@ -10,7 +10,11 @@ import ProfilePage from './Pages/ProfilePage/ProfilePage'
 import NotFoundPage from './Pages/NotFoundPage/NotFoundPage'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
 import ProtectedAuthRoute from './ProtectedRoute/ProtectedAuthRoute'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+ const queryClient = new QueryClient
+
+ 
 
 const router = createBrowserRouter([
   {path:"" , element: <AuthLayout/>, children:[
@@ -36,9 +40,9 @@ function App() {
 
   return (
 <>
-
+<QueryClientProvider client={queryClient} >
 <RouterProvider router={router}></RouterProvider>
-
+</QueryClientProvider>
 </>
   )
 }
