@@ -6,29 +6,29 @@ import CreatePost from "../../Component/Post/CreatPost";
 import { useQuery } from "@tanstack/react-query";
 
 export default function FeedPage() {
-  // const [posts, setPosts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // async function getAllPosts() {
-  //   const data = await getAllPostsApi();
-  //   console.log(data.data.posts);
-  //   if (data.message == "success") {
-  //     setPosts(data.data.posts);
-  //     setIsLoading(false);
-  //   }
-  // }
+  async function getAllPosts() {
+    const response = await getAllPostsApi();
+    console.log(response);
+    if (response.message == "success") {
+      setPosts(response.posts);
+      setIsLoading(false);
+    }
+  }
 
-  //  useEffect(() => {
-  //   getAllPosts();
-  // }, []);
-
-
+   useEffect(() => {
+    getAllPosts();
+  }, []);
 
 
-    const { data, isLoading, isFetching, refetch } = useQuery ({
-    queryKey: ["posts"],
-    queryFn: getAllPostsApi
-  });
+
+
+  //   const { data, isLoading, isFetching, refetch } = useQuery ({
+  //   queryKey: ["posts"],
+  //   queryFn: getAllPostsApi
+  // });
 
 
  
@@ -36,11 +36,11 @@ export default function FeedPage() {
   return (
     <div className="grid  max-w-2xl mx-auto   gap-2  ">
 
-      <CreatePost getAllPosts={refetch}/>
+      <CreatePost getAllPosts={getAllPosts}/>
       {isLoading ? (
         <LoadingScrean />
       ) : (
-        data?.data.posts.map((post) => <PostComponent callback={refetch} key={post.id} post={post} commentsLimit={1} />)
+        posts.map((post) => <PostComponent callback={getAllPosts} key={post._id} post={post} commentsLimit={1} />)
       )}
     </div>
   );

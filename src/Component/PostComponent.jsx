@@ -61,7 +61,7 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
             header={post.user.name}
             subheader={post.createdAt}
           />
-          {post.user._id == userData._id && <CardDropdown onOpen={onOpen} />}
+          {post?.user._id == userData._id && <CardDropdown onOpen={onOpen} />}
         </div>
 
         <PostBody capton={post.body} image={post.image} />

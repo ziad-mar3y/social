@@ -3,16 +3,20 @@ import axios from "axios";
 const baseUrl = "https://linked-posts.routemisr.com/";
 
 export async function getAllPostsApi() {
-  return axios.get(baseUrl + "posts/" ,{
-    headers:{
-      token: localStorage.getItem("token")
-      
-    },
-    params:{
-      sort:"-createdAt"
-    }
+try {
+  const {data} = await axios.get(baseUrl +"posts",{
+  headers:{
+    token:localStorage.getItem("token")
+  },
+  params:{
+    sort:"-createdAt"
   }
-)
+} )
+return data
+} catch (error) {
+  return error.response ? error.response.data.error : error.message;
+}
+
     
 
 }
