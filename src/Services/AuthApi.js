@@ -1,7 +1,6 @@
 import axios from "axios"
 
 const baseUrl = "https://linked-posts.routemisr.com/"
-const token = localStorage.getItem("token");
 
 
 
@@ -26,7 +25,7 @@ export async function getUserDataApi() {
     try {
         const {data} = await axios.get(baseUrl + "users/profile-data" ,{
             headers:{
-                token: token 
+                token: localStorage.getItem("token") 
             }
         })
         return data

@@ -1,18 +1,4 @@
-import {
-  addToast,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@heroui/react";
+import { addToast, Button, useDisclosure } from "@heroui/react";
 import Comment from "./Comment";
 import Header from "./Post/Header";
 import PostActions from "./Post/PostActions";
@@ -26,7 +12,7 @@ import CardDropdown from "./CardDropdown";
 import CardModal from "./CardModal";
 import CreatComment from "./CreatComment";
 
-export default function PostComponent({ post, commentsLimit, callback }) {
+export default function PostComponent({ post, commentsLimit, callback  }) {
   const [visableComments, setVisableComments] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [commentContent, setCommentContent] = useState("");
@@ -34,7 +20,7 @@ export default function PostComponent({ post, commentsLimit, callback }) {
   const { userData } = useContext(authContext);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isPostDeleted, setIsPostDeleted] = useState(false);
-
+ 
   function handleMoreComments() {
     setIsLoading(true);
     setTimeout(() => {
@@ -75,7 +61,7 @@ export default function PostComponent({ post, commentsLimit, callback }) {
             header={post.user.name}
             subheader={post.createdAt}
           />
-          {post.user?._id == userData._id && <CardDropdown onOpen={onOpen} />}
+          {post.user?.id == userData._id && <CardDropdown onOpen={onOpen} />}
         </div>
 
         <PostBody capton={post.body} image={post.image} />
