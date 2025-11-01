@@ -5,16 +5,18 @@ import PostActions from "./Post/PostActions";
 import PostBody from "./Post/PostBody";
 import PostFooter from "./Post/PostFooter";
 import { useContext, useState } from "react";
-import { AddCommentApi } from "../Services/CommentsApi";
+import { AddCommentApi, DeleteCommentApi, UpdateCommentApi } from "../Services/CommentsApi";
 import { authContext } from "../Contexts/AuthContextProvider";
-import { deletePostApi } from "../Services/PostsApi";
 import CardDropdown from "./CardDropdown";
 import CardModal from "./CardModal";
 import CreatComment from "./CreatComment";
+import { updatePostApi } from "../Services/PostsApi";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../App";
 
-export default function PostComponent({ post, commentsLimit, callback  }) {
+export default function PostComponent({ post, commentsLimit, callback , handleDeletePost }) {
   const [visableComments, setVisableComments] = useState(3);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommentSubmitted, setIsCommentSubmitted] = useState(false);
   const { userData } = useContext(authContext);
@@ -29,28 +31,59 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
     }, 300);
   }
 
-  async function handleComment() {
-    setIsCommentSubmitted(true);
-    const response = await AddCommentApi(commentContent, post.id);
-    await callback();
-    setCommentContent("");
-    setIsCommentSubmitted(false);
-  }
+  // async function handleComment() {
+  //   setIsCommentSubmitted(true);
+  //   const response = await AddCommentApi(commentContent, post.id);
+  //   await callback();
+  //   setCommentContent("");
+  //   setIsCommentSubmitted(false);
+  // }
 
-  async function handleDeletePost(onClose) {
-    setIsPostDeleted(true);
-    const response = await deletePostApi(post.id);
-    if (response.message == "success") {
-      await callback();
-      setIsPostDeleted(false);
-      onClose();
-      addToast({
-        title: "delete successfully",
-        timeout: 2000,
-        color: "success",
-      });
+  const {mutate:handleComment , isPending} = useMutation({
+    mutationFn : ()=> AddCommentApi(commentContent , post.id ) ,
+    onSuccess : (data)=> {
+      setCommentContent("");
+      setIsCommentSubmitted(false);
+      queryClient.invalidateQueries(["posts"])
+    },
+    onError:(error)=>{
+      console.log(error);
+      
     }
-  }
+
+  })
+
+    async function handleDeleteComment(onClose , setIsCommentDeleted , commentId   ) {
+      setIsCommentDeleted(true);
+      const response = await DeleteCommentApi(commentId);
+      if (response.message == "success") {
+        await callback();
+        onClose();
+        setIsCommentDeleted(false);
+        addToast({
+          title: "Comment Deleted Successfully",
+          color: "success",
+          timeout: 2000,
+        });
+      }
+    }
+
+    
+      async function updateComment(setIsUpdating ,commentId , newCommentContent ,setIsInUpdatingMood ) {
+        setIsUpdating(true);
+        const response = await UpdateCommentApi(commentId, newCommentContent);
+        if (response.message == "success") {
+          await callback();
+          setIsInUpdatingMood(false);
+        }
+        setIsUpdating(false);
+      }
+    
+      async function updatePost( postId ) {
+        const response = await updatePostApi(postId)
+        console.log(response);
+        
+      }
 
   return (
     <div className=" w-full flex flex-col mt-0   ">
@@ -61,7 +94,7 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
             header={post.user.name}
             subheader={post.createdAt}
           />
-          {post?.user._id == userData._id && <CardDropdown onOpen={onOpen} />}
+          {post?.user._id == userData._id && <CardDropdown onOpen={onOpen} updatePost={updatePost} post={post}/>}
         </div>
 
         <PostBody capton={post.body} image={post.image} />
@@ -89,7 +122,7 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
         <CreatComment
           commentContent={commentContent}
           handleComment={handleComment}
-          isCommentSubmitted={isCommentSubmitted}
+          isCommentSubmitted={isPending}
           setCommentContent={setCommentContent}
         />
         {post.comments
@@ -100,6 +133,8 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
               comment={comment}
               onOpen={onOpen}
               callback={callback}
+              handleDeleteComment={handleDeleteComment}
+              updateComment={updateComment}
             />
           ))}
         {post.comments.length > visableComments && !commentsLimit && (
@@ -114,7 +149,7 @@ export default function PostComponent({ post, commentsLimit, callback  }) {
         )}
       </div>
       <CardModal
-        deleteFn={handleDeletePost}
+        deleteFn={(onClose)=>handleDeletePost(onClose , setIsPostDeleted , post._id)}
         isLoading={isPostDeleted}
         isOpen={isOpen}
         onOpenChange={onOpenChange}

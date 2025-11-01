@@ -1,7 +1,7 @@
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
 import React from 'react'
 
-export default function CardDropdown({onOpen , setIsInUpdatingMood}) {
+export default function CardDropdown({onOpen , setIsInUpdatingMood , updatePost ,post}) {
   return (
         <Dropdown className=' ' >
               <DropdownTrigger>
@@ -23,7 +23,7 @@ export default function CardDropdown({onOpen , setIsInUpdatingMood}) {
                 </svg>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem onPress={ () =>setIsInUpdatingMood(true)} key="edit">Edit </DropdownItem>
+                <DropdownItem onPress={ () =>updatePost(post._id)} key="edit">Edit </DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"

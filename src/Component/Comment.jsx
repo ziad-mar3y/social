@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import userPhoto from "../../src/assets/OIP.webp";
 import { authContext } from "../Contexts/AuthContextProvider";
-import { addToast, Button, Input, useDisclosure } from "@heroui/react";
-import { DeleteCommentApi, UpdateCommentApi } from "../Services/CommentsApi";
+import {  Button, Input, useDisclosure } from "@heroui/react";
 import CardDropdown from "./CardDropdown";
 import CardModal from "./CardModal";
-export default function Comment({ comment, callback }) {
+
+export default function Comment({ comment ,handleDeleteComment ,updateComment }) {
   const { userData } = useContext(authContext);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
@@ -13,30 +13,6 @@ export default function Comment({ comment, callback }) {
   const [isInUpdatingMood, setIsInUpdatingMood] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  async function handleDeleteComment(onClose) {
-    setIsCommentDeleted(true);
-    const response = await DeleteCommentApi(comment._id);
-    if (response.message == "success") {
-      await callback();
-      onClose();
-      setIsCommentDeleted(false);
-      addToast({
-        title: "Comment Deleted Successfully",
-        color: "success",
-        timeout: 2000,
-      });
-    }
-  }
-
-  async function updateComment() {
-    setIsUpdating(true);
-    const response = await UpdateCommentApi(comment._id, newCommentContent);
-    if (response.message == "success") {
-      await callback();
-      setIsInUpdatingMood(false);
-    }
-    setIsUpdating(false);
-  }
 
   return (
     <div className="">
@@ -81,7 +57,7 @@ export default function Comment({ comment, callback }) {
               Cancel
             </Button>
             <Button
-              onPress={updateComment}
+              onPress={()=> updateComment(setIsUpdating, comment._id , newCommentContent , setIsInUpdatingMood) }
               isLoading={isUpdating}
               color="primary"
             >
@@ -96,7 +72,7 @@ export default function Comment({ comment, callback }) {
       )}
 
       <CardModal
-        deleteFn={handleDeleteComment}
+        deleteFn={(onClose)=> handleDeleteComment(onClose , setIsCommentDeleted , comment._id )}
         isLoading={isCommentDeleted}
         isOpen={isOpen}
         onOpenChange={onOpenChange}

@@ -12,7 +12,7 @@ import ProtectedRoute from './ProtectedRoute/ProtectedRoute'
 import ProtectedAuthRoute from './ProtectedRoute/ProtectedAuthRoute'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
- const queryClient = new QueryClient
+ export const queryClient = new QueryClient
 
  
 

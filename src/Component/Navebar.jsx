@@ -10,10 +10,8 @@ import {
   DropdownMenu,
   Avatar,
   Button,
-  NavbarMenuItem,
 } from "@heroui/react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { counterContext } from "../Contexts/CounterContext";
+import { Link,  useNavigate } from "react-router-dom";
 import AuthContextProvider, {
   authContext,
 } from "../Contexts/AuthContextProvider";
